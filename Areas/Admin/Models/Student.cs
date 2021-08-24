@@ -13,9 +13,11 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Models
         public int Id { get; set; }
         [Required]
         [MinLength(3)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required]
@@ -28,14 +30,17 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Models
 
         public string Location { get; set; }
 
+        [Display(Name = "Is Placed")] // this field is not used, remove it from DB
         public bool IsPlaced { get; set; }
 
         public string Company { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Updated At")]
         public DateTime UpdatedAt { get; set; }
 
         public Student()
