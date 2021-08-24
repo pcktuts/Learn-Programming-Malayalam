@@ -23,9 +23,21 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Controllers
         }
 
         // GET: Admin/Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View(await _context.Courses.ToListAsync());
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var courses = from c in _context.Courses
+                           select c;
+            courses = sortOrder switch
+            {
+                "name_desc" => courses.OrderByDescending(c => c.Name),
+                "Date" => courses.OrderBy(c => c.CreatedAt),
+                "date_desc" => courses.OrderByDescending(c => c.CreatedAt),
+                _ => courses.OrderByDescending(c => c.Id),
+            };
+            return View(await courses.AsNoTracking().ToListAsync());
+            //return View(await _context.Courses.ToListAsync());
         }
 
         // GET: Admin/Courses/Details/5
