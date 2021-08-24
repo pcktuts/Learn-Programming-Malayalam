@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Learn_Programming_Malayalam.Areas.Admin.Models;
 using Learn_Programming_Malayalam.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Learn_Programming_Malayalam.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext _context;
