@@ -62,7 +62,7 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Status,ProjectUrl,Description,StartedAt,CompletedAt,StudentId,CourseId")] Certificate certificate)
+        public async Task<IActionResult> Create([Bind("Id,Status,ProjectUrl,StartedAt,CompletedAt,StudentId,CourseId")] Certificate certificate)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +98,7 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Status,ProjectUrl,Description,StartedAt,CompletedAt,StudentId,CourseId")] Certificate certificate)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Status,ProjectUrl,StartedAt,CompletedAt,StudentId,CourseId")] Certificate certificate)
         {
             if (id != certificate.Id)
             {

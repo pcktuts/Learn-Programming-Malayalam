@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Learn_Programming_Malayalam.Areas.Admin.Models
 {
+    [Index(nameof(CertificateNumber), IsUnique = true)]
     public class Certificate
     {
         public enum EnumStatus
@@ -25,7 +27,8 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Models
 
         public string ProjectUrl { get; set; }
         [Required]
-        public string Description { get; set; }
+        [StringLength(7)]
+        public string CertificateNumber { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime StartedAt { get; set; }
@@ -52,6 +55,13 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Models
         {
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
+            CertificateNumber = this.GenerateCertificateNumber(7);
+        }
+
+        public string GenerateCertificateNumber(int length)
+        {
+            string random = string.Join("", Guid.NewGuid().ToString("n").Take(length).Select(o => o));
+            return random.ToUpper();
         }
     }
 }
