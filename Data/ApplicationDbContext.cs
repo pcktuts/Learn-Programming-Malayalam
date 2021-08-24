@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Learn_Programming_Malayalam.Areas.Admin.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace Learn_Programming_Malayalam.Data
             : base(options)
         {
         }
+        public DbSet<Course> Courses { get; set; }
     }
 }
