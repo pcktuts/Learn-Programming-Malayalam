@@ -23,12 +23,19 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Controllers
         }
 
         // GET: Admin/Courses
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
+
             var courses = from c in _context.Courses
                            select c;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                courses = courses.Where(c => c.Name.Contains(searchString)
+                                       || c.Description.Contains(searchString));
+            }
             courses = sortOrder switch
             {
                 "name_desc" => courses.OrderByDescending(c => c.Name),
