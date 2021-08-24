@@ -15,5 +15,6 @@ namespace Learn_Programming_Malayalam.Data
         }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<Certificate> Certificates { get; set; }
     }
 }
