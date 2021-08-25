@@ -11,13 +11,13 @@ namespace Learn_Programming_Malayalam.Helpers
         {
             public int PageIndex { get; private set; }
             public int TotalPages { get; private set; }
-            public static int PageSize = 10;
+            public const int PAGESIZE = 10;
             
 
         public PaginatedList(List<T> items, int count, int pageIndex)
             {
                 PageIndex = pageIndex;
-                TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+                TotalPages = (int)Math.Ceiling(count / (double)PAGESIZE);
 
                 this.AddRange(items);
             }
@@ -41,7 +41,7 @@ namespace Learn_Programming_Malayalam.Helpers
             public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex)
             {
                 var count = await source.CountAsync();
-                var items = await source.Skip((pageIndex - 1) * PageSize).Take(PageSize).ToListAsync();
+                var items = await source.Skip((pageIndex - 1) * PAGESIZE).Take(PAGESIZE).ToListAsync();
                 return new PaginatedList<T>(items, count, pageIndex);
             }
         }

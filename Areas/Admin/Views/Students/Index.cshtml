@@ -61,7 +61,7 @@
         {
         <tr>
             <td>
-                @(item.i  + 1  + (Model.PageIndex - 1) * Learn_Programming_Malayalam.Helpers.PaginatedList<Learn_Programming_Malayalam.Areas.Admin.Models.Student>.PageSize)
+                @(item.i  + 1  + (Model.PageIndex - 1) * Learn_Programming_Malayalam.Helpers.PaginatedList<Learn_Programming_Malayalam.Areas.Admin.Models.Student>.PAGESIZE)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.value.FirstName)
