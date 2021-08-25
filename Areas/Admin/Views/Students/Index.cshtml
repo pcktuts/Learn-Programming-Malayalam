@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Learn_Programming_Malayalam.Areas.Admin.Models.Student>
+﻿@model Learn_Programming_Malayalam.Helpers.PaginatedList<Learn_Programming_Malayalam.Areas.Admin.Models.Student>
 
 @{
     ViewData["Title"] = "Index";
@@ -22,28 +22,33 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.FirstName)</a>
+                Sno
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">FirstName</a>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                LastName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>            
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
+                Phone
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.CreatedAt)</a>
+                Location
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
+                Company
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Created At</a>
+
+            </th>
+            <th>
+                Updated At
             </th>
             <th>
                 Actions
@@ -51,38 +56,62 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model.Select((value, i) => new { i, value }))
+
+        {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @(item.i  + 1  + (Model.PageIndex - 1) * Learn_Programming_Malayalam.Helpers.PaginatedList<Learn_Programming_Malayalam.Areas.Admin.Models.Student>.PageSize)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.value.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @Html.DisplayFor(modelItem => item.value.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Phone)
+                @Html.DisplayFor(modelItem => item.value.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>            
-            <td>
-                @Html.DisplayFor(modelItem => item.Company)
+                @Html.DisplayFor(modelItem => item.value.Phone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
+                @Html.DisplayFor(modelItem => item.value.Location)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
+                @Html.DisplayFor(modelItem => item.value.Company)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.value.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.value.UpdatedAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.value.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.value.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.value.Id">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

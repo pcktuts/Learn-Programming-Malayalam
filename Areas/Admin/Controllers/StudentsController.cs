@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Learn_Programming_Malayalam.Areas.Admin.Models;
 using Learn_Programming_Malayalam.Data;
 using Microsoft.AspNetCore.Authorization;
+using Learn_Programming_Malayalam.Helpers;
 
 namespace Learn_Programming_Malayalam.Areas.Admin.Controllers
 {
@@ -23,10 +24,19 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Controllers
         }
 
         // GET: Admin/Students
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
             ViewData["CurrentFilter"] = searchString;
 
             var students = from s in _context.Students
@@ -47,7 +57,9 @@ namespace Learn_Programming_Malayalam.Areas.Admin.Controllers
                 "date_desc" => students.OrderByDescending(s => s.CreatedAt),
                 _ => students.OrderByDescending(s => s.Id),
             };
-            return View(await students.AsNoTracking().ToListAsync());
+            
+            return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1));
+            //return View(await students.AsNoTracking().ToListAsync());
         }
 
         // GET: Admin/Students/Details/5
